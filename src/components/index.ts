@@ -1,3 +1,4 @@
+export { Home } from './Home';
 export { Check, Delete, Edit } from './Icons';
 export { LoginForm } from './LoginForm';
 export { TodoCounter } from './TodoCounter';
