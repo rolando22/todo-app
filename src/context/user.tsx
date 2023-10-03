@@ -4,10 +4,12 @@ import { UserLogin, UserState } from '../types/user';
 
 interface ContextProps {
     user: UserState,
-    login: ({ username, password }: UserLogin) => void
+    login: (loginData: UserLogin) => void
 }
 
-export const UserContext = createContext<ContextProps>({} as ContextProps);
+export const UserContext = createContext<ContextProps>({ 
+	user: userInitialState, 
+} as ContextProps);
 
 interface Props {
     children: JSX.Element
@@ -16,7 +18,7 @@ interface Props {
 export function UserProvider({ children }: Props) {
 	const [state, dispatch] = useReducer(userReducer, userInitialState);
 
-	const login = ({ username, password }: UserLogin) => dispatch({ type: 'LOGIN', payload: { username, password } });
+	const login = (loginData: UserLogin) => dispatch({ type: 'LOGIN', payload: loginData });
 
 	return (
 		<UserContext.Provider value={{

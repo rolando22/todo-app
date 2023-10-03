@@ -4,7 +4,7 @@ import { UserContext } from '../context/user';
 export function useUserContext() {
 	const userContext = useContext(UserContext);
 
-	if (userContext === undefined) throw new Error('useTransactionsContext debe usarse dentro de un TransactionsProvider');
+	if (userContext === undefined) throw new Error('useUserContext must be used within a UserProvider');
 
 	return userContext;
 }
