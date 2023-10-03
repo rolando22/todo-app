@@ -7,10 +7,12 @@ export const userInitialState: UserState = {
 	email: '',
 	username: '',
 	image: '',
+	token: '',
 };
 
-const userReducerObject = (state: UserState, action: UserTypeAction) => ({
-	['LOGIN']: state
+const userReducerObject = (_state: UserState, action: UserTypeAction) => ({
+	['LOGIN']: action.payload, 
+	['LOGOUT']: userInitialState,
 });
 
 export const userReducer = (state: UserState, action: UserTypeAction) => {

@@ -1,10 +1,12 @@
 import { createContext, useReducer } from 'react';
 import { userInitialState, userReducer } from '../reducers/user';
-import { UserLogin, UserState } from '../types/user';
+import { authUser } from '../services/users';
+import type { UserLogin, UserState } from '../types/user';
 
 interface ContextProps {
     user: UserState,
-    login: (loginData: UserLogin) => void
+    login: (loginData: UserLogin) => Promise<void>
+	logout: () => void
 }
 
 export const UserContext = createContext<ContextProps>({ 
@@ -16,14 +18,24 @@ interface Props {
 }
 
 export function UserProvider({ children }: Props) {
-	const [state, dispatch] = useReducer(userReducer, userInitialState);
+	const [user, dispatch] = useReducer(userReducer, userInitialState);
 
-	const login = (loginData: UserLogin) => dispatch({ type: 'LOGIN', payload: loginData });
+	const login = async (loginData: UserLogin) => {
+		try {
+			const userData: UserState = await authUser(loginData);
+			dispatch({ type: 'LOGIN', payload: userData });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const logout = () => dispatch({ type: 'LOGOUT', payload: null });
 
 	return (
 		<UserContext.Provider value={{
-			user: state,
+			user,
 			login,
+			logout,
 		}}>
 			{children}
 		</UserContext.Provider>

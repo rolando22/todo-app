@@ -1,5 +1,5 @@
 export interface UserLogin {
-    username: string
+    email: string
     password: string
 }
 
@@ -10,6 +10,9 @@ export interface UserState {
     email: string
     username: string
     image: string
+    token: string
 }
 
-export type UserTypeAction = { type: 'LOGIN', payload: UserLogin }
+export type UserTypeAction = 
+    | { type: 'LOGIN', payload: UserState }
+    | { type: 'LOGOUT', payload: null }
