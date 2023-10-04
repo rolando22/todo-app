@@ -5,13 +5,11 @@ export function App() {
 	const { user } = useUserContext();
 
 	return (
-		<>
-			<div className='mx-auto max-w-5xl grid h-screen'>
-				{user.token === '' 
-					? <LoginForm /> 
-					: <Home />
-				}
-			</div>
-		</>
+		<div className='mx-auto max-w-5xl grid h-screen'>
+			{user.token === '' 
+				? <LoginForm /> 
+				: <Home />
+			}
+		</div>
 	);
 }
