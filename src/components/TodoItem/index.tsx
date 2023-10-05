@@ -1,11 +1,18 @@
 import { CompleteIcon, DeleteIcon, EditIcon } from '..';
+import { useTodosContext } from '../../hooks/useTodosContext';
+import { TodoId } from '../../types/todo';
 
 interface Props {
+	id: TodoId
     text: string
     completed: boolean
 }
 
-export function TodoItem({ text, completed }: Props) {
+export function TodoItem({ id, text, completed }: Props) {
+	const { removeTodo } = useTodosContext();
+
+	const handlerRemoveTodo = () => removeTodo(id);
+
 	return (
 		<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
 			<CompleteIcon 
@@ -19,7 +26,7 @@ export function TodoItem({ text, completed }: Props) {
 				{text}
 			</p>
 			<EditIcon onEdit={() => {}} /> 
-			<DeleteIcon onDelete={() => {}} />
+			<DeleteIcon onDelete={handlerRemoveTodo} />
 		</li>
 	);
 }

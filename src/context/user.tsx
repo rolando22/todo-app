@@ -2,6 +2,7 @@ import { createContext, useReducer } from 'react';
 import { userInitialState, userReducer } from '../reducers/user';
 import { authUser } from '../services/users';
 import type { UserLogin, UserState } from '../types/user';
+import { setToken } from '../services';
 
 interface ContextProps {
     user: UserState,
@@ -22,14 +23,18 @@ export function UserProvider({ children }: Props) {
 
 	const login = async (loginData: UserLogin) => {
 		try {
-			const userData: UserState = await authUser(loginData);
+			const userData = await authUser(loginData);
 			dispatch({ type: 'LOGIN', payload: userData });
+			setToken(userData.token);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	const logout = () => dispatch({ type: 'LOGOUT', payload: null });
+	const logout = () => {
+		dispatch({ type: 'LOGOUT', payload: null });
+		setToken('');
+	};
 
 	return (
 		<UserContext.Provider value={{

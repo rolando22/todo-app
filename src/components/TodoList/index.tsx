@@ -9,6 +9,7 @@ export function TodoList() {
 			{todos.map(todo => 
 				<TodoItem 
 					key={todo.id} 
+					id={todo.id}
 					text={todo.text}
 					completed={todo.completed}
 				/>

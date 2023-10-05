@@ -1,5 +1,7 @@
 import { UserState } from './user';
 
+export type TodoId = number;
+
 export interface Todo {
     text: string 
     completed: boolean 
@@ -7,13 +9,13 @@ export interface Todo {
 }
 
 export interface TodoWithId extends Todo {
-    id: number
+    id: TodoId
 }
 
 export type TodosState = TodoWithId[];
 
 export type TodosTypeAction = 
-    | { type: 'SET_TODOS', payload: TodoWithId[] }
+    | { type: 'SET_TODOS', payload: TodosState }
     // | { type: 'ADD_TODO', payload: Todo }
     // | { type: 'EDIT_TODO', payload: TodoWithId }
-    // | { type: 'REMOVE_TODO', payload: Pick<TodoWithId, 'id'> }
+    | { type: 'REMOVE_TODO', payload: TodoId }

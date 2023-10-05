@@ -1,16 +1,15 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { todosInitialState, todosReducer } from '../reducers/todos';
 import { useUserContext } from '../hooks/useUserContext';
-import { getTodosByUser } from '../services/todos';
-import type { TodosState } from '../types/todo';
+import { deleteTodo, getTodosByUser } from '../services/todos';
+import type { TodoId, TodosState } from '../types/todo';
 
 interface ContextProps {
 	todos: TodosState
+	removeTodo: (id: TodoId) => Promise<void>
 }
 
-export const TodosContext = createContext<ContextProps>({
-	todos: []
-} as ContextProps);
+export const TodosContext = createContext<ContextProps>({} as ContextProps);
 
 interface Props {
     children: JSX.Element
@@ -25,7 +24,7 @@ export function TodosProvider({ children }: Props) {
 		(async () => {
 			try {
 				const { id } = user;
-				const todosData: TodosState = await getTodosByUser(id);
+				const todosData = await getTodosByUser(id);
 				dispatch({ type: 'SET_TODOS', payload: todosData });
 			} catch (error) {
 				console.log(error);
@@ -33,9 +32,19 @@ export function TodosProvider({ children }: Props) {
 		})();
 	}, [user]);
 
+	const removeTodo = async (id: TodoId) => {
+		try {
+			const todo = await deleteTodo(id);
+			dispatch({ type: 'REMOVE_TODO', payload: todo.id });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<TodosContext.Provider value={{
-			todos
+			todos, 
+			removeTodo,
 		}}>
 			{children}
 		</TodosContext.Provider>
