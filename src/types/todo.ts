@@ -13,6 +13,7 @@ export interface TodoWithId extends Todo {
 export type TodosState = TodoWithId[];
 
 export type TodosTypeAction = 
-    | { type: 'ADD_TODO', payload: Todo }
-    | { type: 'EDIT_TODO', payload: TodoWithId }
-    | { type: 'REMOVE_TODO', payload: Pick<TodoWithId, 'id'> }
+    | { type: 'SET_TODOS', payload: TodoWithId[] }
+    // | { type: 'ADD_TODO', payload: Todo }
+    // | { type: 'EDIT_TODO', payload: TodoWithId }
+    // | { type: 'REMOVE_TODO', payload: Pick<TodoWithId, 'id'> }
