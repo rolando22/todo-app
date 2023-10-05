@@ -2,11 +2,12 @@ import { createContext, useEffect, useReducer } from 'react';
 import { todosInitialState, todosReducer } from '../reducers/todos';
 import { useUserContext } from '../hooks/useUserContext';
 import { deleteTodo, getTodosByUser } from '../services/todos';
-import type { TodoId, TodosState } from '../types/todo';
+import type { TodoId, TodoWithId, TodosState } from '../types/todo';
 
 interface ContextProps {
 	todos: TodosState
 	removeTodo: (id: TodoId) => Promise<void>
+	getTodo: (id: TodoId) => TodoWithId | undefined
 }
 
 export const TodosContext = createContext<ContextProps>({} as ContextProps);
@@ -41,10 +42,13 @@ export function TodosProvider({ children }: Props) {
 		}
 	};
 
+	const getTodo = (id: TodoId) => structuredClone(todos).find(todo => todo.id === id);
+
 	return (
 		<TodosContext.Provider value={{
 			todos, 
 			removeTodo,
+			getTodo,
 		}}>
 			{children}
 		</TodosContext.Provider>

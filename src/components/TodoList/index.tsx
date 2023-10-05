@@ -1,7 +1,12 @@
 import { TodoItem } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
+import type { ToggleModal } from '../../types/state';
 
-export function TodoList() {
+interface Props {
+	toggle: (newState: ToggleModal) => void
+}
+
+export function TodoList({ toggle }: Props) {
 	const { todos } = useTodosContext();
 
 	return (
@@ -12,6 +17,7 @@ export function TodoList() {
 					id={todo.id}
 					text={todo.text}
 					completed={todo.completed}
+					toggle={toggle}
 				/>
 			)}
 		</ul>

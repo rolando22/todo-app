@@ -1,17 +1,20 @@
 import { CompleteIcon, DeleteIcon, EditIcon } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
-import { TodoId } from '../../types/todo';
+import type { ToggleModal } from '../../types/state';
+import type { TodoId } from '../../types/todo';
 
 interface Props {
 	id: TodoId
     text: string
     completed: boolean
+	toggle: (newState: ToggleModal) => void
 }
 
-export function TodoItem({ id, text, completed }: Props) {
+export function TodoItem({ id, text, completed, toggle }: Props) {
 	const { removeTodo } = useTodosContext();
 
 	const handlerRemoveTodo = () => removeTodo(id);
+	const handlerToggleEditTodo = () => toggle({ todoId: id, type: 'edit', open: true });
 
 	return (
 		<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
@@ -25,7 +28,7 @@ export function TodoItem({ id, text, completed }: Props) {
             `}>
 				{text}
 			</p>
-			<EditIcon onEdit={() => {}} /> 
+			<EditIcon onEdit={handlerToggleEditTodo} /> 
 			<DeleteIcon onDelete={handlerRemoveTodo} />
 		</li>
 	);
