@@ -1,11 +1,11 @@
-import { UserState } from './user';
+import { UserId } from './user';
 
 export type TodoId = number;
 
 export interface Todo {
     text: string 
     completed: boolean 
-    userId: Pick<UserState, 'id'>
+    userId: UserId
 }
 
 export interface TodoWithId extends Todo {
@@ -16,6 +16,6 @@ export type TodosState = TodoWithId[];
 
 export type TodosTypeAction = 
     | { type: 'SET_TODOS', payload: TodosState }
-    // | { type: 'ADD_TODO', payload: Todo }
-    // | { type: 'EDIT_TODO', payload: TodoWithId }
+    | { type: 'ADD_TODO', payload: TodoWithId }
+    | { type: 'EDIT_TODO', payload: TodoWithId }
     | { type: 'REMOVE_TODO', payload: TodoId }

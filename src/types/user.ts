@@ -1,10 +1,12 @@
+export type UserId = number
+
 export interface UserLogin {
     email: string
     password: string
 }
 
 export interface UserState {
-    id: number
+    id: UserId
     firstName: string
     lastName: string
     email: string

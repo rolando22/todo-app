@@ -1,11 +1,13 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { todosInitialState, todosReducer } from '../reducers/todos';
 import { useUserContext } from '../hooks/useUserContext';
-import { deleteTodo, getTodosByUser } from '../services/todos';
+import { createTodo, deleteTodo, getTodosByUser, updateTodo } from '../services/todos';
 import type { TodoId, TodoWithId, TodosState } from '../types/todo';
 
 interface ContextProps {
 	todos: TodosState
+	addTodo: (todoText: string) => Promise<void>
+	editTodo: (newTodo: TodoWithId) => Promise<void>
 	removeTodo: (id: TodoId) => Promise<void>
 	getTodo: (id: TodoId) => TodoWithId | undefined
 }
@@ -33,6 +35,24 @@ export function TodosProvider({ children }: Props) {
 		})();
 	}, [user]);
 
+	const addTodo = async (todoText: string) => {
+		try {
+			const todoData = await createTodo({ text: todoText, completed: false, userId: user.id });
+			dispatch({ type: 'ADD_TODO', payload: todoData });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const editTodo = async (newTodo: TodoWithId) => {
+		try {
+			const todoData = await updateTodo(newTodo.id, { text: newTodo.text, completed: newTodo.completed, userId: user.id });
+			dispatch({ type: 'EDIT_TODO', payload: todoData });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const removeTodo = async (id: TodoId) => {
 		try {
 			const todo = await deleteTodo(id);
@@ -47,6 +67,8 @@ export function TodosProvider({ children }: Props) {
 	return (
 		<TodosContext.Provider value={{
 			todos, 
+			addTodo, 
+			editTodo, 
 			removeTodo,
 			getTodo,
 		}}>
