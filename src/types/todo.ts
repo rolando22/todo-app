@@ -5,7 +5,7 @@ export type TodoId = number;
 export interface Todo {
     text: string 
     completed: boolean 
-    userId: UserId
+    userId?: UserId
 }
 
 export interface TodoWithId extends Todo {

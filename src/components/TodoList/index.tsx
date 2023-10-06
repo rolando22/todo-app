@@ -11,7 +11,7 @@ export function TodoList({ toggle }: Props) {
 
 	return (
 		<ul className='m-0 px-0 pt-0 pb-14'>
-			{todos.map(todo => 
+			{[...todos].reverse().map(todo => 
 				<TodoItem 
 					key={todo.id} 
 					id={todo.id}

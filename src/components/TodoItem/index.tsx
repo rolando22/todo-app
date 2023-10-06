@@ -11,16 +11,17 @@ interface Props {
 }
 
 export function TodoItem({ id, text, completed, toggle }: Props) {
-	const { removeTodo } = useTodosContext();
+	const { editTodo, removeTodo } = useTodosContext();
 
 	const handlerRemoveTodo = () => removeTodo(id);
+	const handlerEditTodo = () => editTodo({ id, text, completed: !completed });
 	const handlerToggleEditTodo = () => toggle({ todoId: id, type: 'edit', open: true });
 
 	return (
 		<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
 			<CompleteIcon 
 				completed={completed} 
-				onComplete={() => {}} 
+				onComplete={handlerEditTodo} 
 			/>
 			<p className={`
                 mx-10 my-6 w-[calc(100%-100px)] text-lg font-normal
