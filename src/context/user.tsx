@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import { userInitialState, userReducer } from '../reducers/user';
 import { authUser } from '../services/users';
 import type { UserLogin, UserState } from '../types/user';
@@ -6,6 +6,7 @@ import { setToken } from '../services';
 
 interface ContextProps {
     user: UserState,
+    isLoading: boolean,
     login: (loginData: UserLogin) => Promise<void>
 	logout: () => void
 }
@@ -20,14 +21,18 @@ interface Props {
 
 export function UserProvider({ children }: Props) {
 	const [user, dispatch] = useReducer(userReducer, userInitialState);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const login = async (loginData: UserLogin) => {
 		try {
+			setIsLoading(true);
 			const userData = await authUser(loginData);
 			dispatch({ type: 'LOGIN', payload: userData });
 			setToken(userData.token);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -38,7 +43,8 @@ export function UserProvider({ children }: Props) {
 
 	return (
 		<UserContext.Provider value={{
-			user,
+			user, 
+			isLoading, 
 			login,
 			logout,
 		}}>

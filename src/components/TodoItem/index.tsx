@@ -1,4 +1,4 @@
-import { CompleteIcon, DeleteIcon, EditIcon } from '..';
+import { CompleteIcon, DeleteIcon, EditIcon, Loader, Modal } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
 import type { ToggleModal } from '../../types/state';
 import type { TodoId } from '../../types/todo';
@@ -11,26 +11,35 @@ interface Props {
 }
 
 export function TodoItem({ id, text, completed, toggle }: Props) {
-	const { editTodo, removeTodo } = useTodosContext();
+	const { isLoading, editTodo, removeTodo } = useTodosContext();
 
 	const handlerRemoveTodo = () => removeTodo(id);
 	const handlerEditTodo = () => editTodo({ id, text, completed: !completed });
 	const handlerToggleEditTodo = () => toggle({ todoId: id, type: 'edit', open: true });
 
 	return (
-		<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
-			<CompleteIcon 
-				completed={completed} 
-				onComplete={handlerEditTodo} 
-			/>
-			<p className={`
-                mx-10 my-6 w-[calc(100%-100px)] text-lg font-normal
-                ${completed === true ? 'line-through decoration-[#171b26]' : ''}
-            `}>
-				{text}
-			</p>
-			<EditIcon onEdit={handlerToggleEditTodo} /> 
-			<DeleteIcon onDelete={handlerRemoveTodo} />
-		</li>
+		<>
+			{isLoading && 
+				<Modal>
+					<div className='bg-black h-screen w-screen opacity-50 flex justify-center items-center'>
+						<Loader />
+					</div>
+				</Modal>
+			}
+			<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
+				<CompleteIcon 
+					completed={completed} 
+					onComplete={handlerEditTodo} 
+				/>
+				<p className={`
+					mx-10 my-6 w-[calc(100%-100px)] text-lg font-normal
+					${completed === true ? 'line-through decoration-[#171b26]' : ''}
+				`}>
+					{text}
+				</p>
+				<EditIcon onEdit={handlerToggleEditTodo} /> 
+				<DeleteIcon onDelete={handlerRemoveTodo} />
+			</li>
+		</>
 	);
 }

@@ -1,4 +1,4 @@
-import { TodoItem } from '..';
+import { Loader, TodoItem } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
 import type { ToggleModal } from '../../types/state';
 
@@ -7,19 +7,24 @@ interface Props {
 }
 
 export function TodoList({ toggle }: Props) {
-	const { todos } = useTodosContext();
+	const { todos, isLoading } = useTodosContext();
 
 	return (
-		<ul className='m-0 px-0 pt-0 pb-14'>
-			{[...todos].reverse().map(todo => 
-				<TodoItem 
-					key={todo.id} 
-					id={todo.id}
-					text={todo.text}
-					completed={todo.completed}
-					toggle={toggle}
-				/>
-			)}
-		</ul>
+		<>
+			{isLoading && todos.length === 0 
+				? <Loader /> 
+				: <ul className='m-0 px-0 pt-0 pb-14'>
+					{[...todos].reverse().map(todo => 
+						<TodoItem 
+							key={todo.id} 
+							id={todo.id}
+							text={todo.text}
+							completed={todo.completed}
+							toggle={toggle}
+						/>
+					)}
+				</ul>
+			}
+		</>
 	);
 }

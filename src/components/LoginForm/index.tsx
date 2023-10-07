@@ -1,7 +1,8 @@
+import { Loader } from '..';
 import { useUserContext } from '../../hooks/useUserContext';
 
 export function LoginForm() {
-	const { login } = useUserContext();
+	const { isLoading, login } = useUserContext();
 
 	const handlerOnSubmitLogin = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -13,7 +14,7 @@ export function LoginForm() {
 	};
 
 	return (
-		<div className='grid justify-center gap-3'>
+		<div className={`grid justify-center gap-3 h-screen ${isLoading ? 'opacity-70' : ''}`}>
 			<h1 className='font-medium text-xl text-center self-center'>Welcome</h1>
 			<form className='flex flex-col gap-4 w-80' onSubmit={handlerOnSubmitLogin}>
 				<div className='flex flex-col gap-1'>
@@ -36,9 +37,10 @@ export function LoginForm() {
 					/>
 				</div>
 				<button 
-					className='bg-black text-white w-full rounded-lg py-3'
+					className='bg-black text-white w-full rounded-lg py-3 flex justify-center'
+					disabled={isLoading}
 				>
-                    Login
+					{isLoading ? <Loader /> : 'Login'}
 				</button>
 			</form>
 		</div>

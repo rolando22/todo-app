@@ -16,7 +16,7 @@ export function Home() {
 					<CreateTodoButton toggle={toggle} />
 				</section>
 			</header>
-			<main className='my-0 mx-auto w-[75%]'>
+			<main className='my-0 mx-auto w-[75%] grid'>
 				<TodoList toggle={toggle} />
 			</main>
 			{toggleModal.open && 
