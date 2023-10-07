@@ -1,4 +1,5 @@
 import { createContext, useReducer, useState } from 'react';
+import { toast } from 'sonner';
 import { userInitialState, userReducer } from '../reducers/user';
 import { authUser } from '../services/users';
 import type { UserLogin, UserState } from '../types/user';
@@ -30,6 +31,7 @@ export function UserProvider({ children }: Props) {
 			dispatch({ type: 'LOGIN', payload: userData });
 			setToken(userData.token);
 		} catch (error) {
+			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
 		} finally {
 			setIsLoading(false);
@@ -39,6 +41,7 @@ export function UserProvider({ children }: Props) {
 	const logout = () => {
 		dispatch({ type: 'LOGOUT', payload: null });
 		setToken('');
+		toast.success('Log out');
 	};
 
 	return (

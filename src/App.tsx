@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import { LoginForm, Home } from './components';
 import { useUserContext } from './hooks/useUserContext';
 
@@ -10,6 +11,7 @@ export function App() {
 				? <LoginForm /> 
 				: <Home />
 			}
+			<Toaster richColors />
 		</div>
 	);
 }

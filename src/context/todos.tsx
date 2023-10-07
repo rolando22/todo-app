@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
+import { toast } from 'sonner';
 import { todosInitialState, todosReducer } from '../reducers/todos';
 import { useUserContext } from '../hooks/useUserContext';
 import { createTodo, deleteTodo, getTodosByUser, updateTodo } from '../services/todos';
@@ -45,7 +46,9 @@ export function TodosProvider({ children }: Props) {
 			setIsLoading(true);
 			const todoData = await createTodo({ text: todoText, completed: false, userId: user.id });
 			dispatch({ type: 'ADD_TODO', payload: todoData });
+			toast.success('TODO created');
 		} catch (error) {
+			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
 		} finally {
 			setIsLoading(false);
@@ -57,7 +60,9 @@ export function TodosProvider({ children }: Props) {
 			setIsLoading(true);
 			const todoData = await updateTodo(newTodo.id, { text: newTodo.text, completed: newTodo.completed, userId: user.id });
 			dispatch({ type: 'EDIT_TODO', payload: todoData });
+			toast.success('TODO updated');
 		} catch (error) {
+			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
 		} finally {
 			setIsLoading(false);
@@ -69,7 +74,9 @@ export function TodosProvider({ children }: Props) {
 			setIsLoading(true);
 			const todo = await deleteTodo(id);
 			dispatch({ type: 'REMOVE_TODO', payload: todo.id });
+			toast.success('TODO deleted');
 		} catch (error) {
+			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
 		} finally {
 			setIsLoading(false);
