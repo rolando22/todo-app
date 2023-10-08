@@ -1,6 +1,6 @@
 import type { UserState, UserTypeAction } from '../types/user';
 
-export const userInitialState: UserState = {
+const emptyUser = {
 	id: 0,
 	firstName: '',
 	lastName: '',
@@ -10,11 +10,22 @@ export const userInitialState: UserState = {
 	token: '',
 };
 
+const USER_LOCALSTORAGE_KEY = 'user_todo_app_v1';
+
+export const userInitialState: UserState = JSON.parse(localStorage.getItem(USER_LOCALSTORAGE_KEY) || JSON.stringify(emptyUser));
+
 const userReducerObject = (_state: UserState, action: UserTypeAction) => ({
-	['LOGIN']: action.payload, 
-	['LOGOUT']: userInitialState,
+	['LOGIN']: () => {
+		const newState = action.payload;
+		localStorage.setItem(USER_LOCALSTORAGE_KEY, JSON.stringify(newState));
+		return newState;
+	}, 
+	['LOGOUT']: () => {
+		localStorage.removeItem(USER_LOCALSTORAGE_KEY);
+		return emptyUser;
+	},
 });
 
 export const userReducer = (state: UserState, action: UserTypeAction) => {
-	return userReducerObject(state, action)[action.type] || state;
+	return userReducerObject(state, action)[action.type]() || state;
 };

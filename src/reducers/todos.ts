@@ -22,6 +22,7 @@ const todosReducerObject = (state: TodosState, action: TodosTypeAction) => ({
 		const newState = state.filter(todo => todo.id !== action.payload);
 		return [...newState];
 	},
+	['RESET_TODOS']: () => todosInitialState,
 });
 
 export const todosReducer = (state: TodosState, action: TodosTypeAction) => {

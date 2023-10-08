@@ -29,7 +29,6 @@ export function UserProvider({ children }: Props) {
 			setIsLoading(true);
 			const userData = await authUser(loginData);
 			dispatch({ type: 'LOGIN', payload: userData });
-			setToken(userData.token);
 		} catch (error) {
 			if (error instanceof Error) toast.error(error.message);
 			console.log(error);

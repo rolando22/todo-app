@@ -9,8 +9,8 @@ export async function authUser (loginData: UserLogin) {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(loginData),
 	});
-	if (response.status === 401) throw new Error('Invalid user or password');
+	const { data, error } : { data: UserState, error: string } = await response.json();
+	if (response.status === 401) throw new Error(error);
 	if (!response.ok) throw new Error('Server error');
-	const { data } : { data: UserState } = await response.json();
 	return data;
 }

@@ -19,3 +19,4 @@ export type TodosTypeAction =
     | { type: 'ADD_TODO', payload: TodoWithId }
     | { type: 'EDIT_TODO', payload: TodoWithId }
     | { type: 'REMOVE_TODO', payload: TodoId }
+    | { type: 'RESET_TODOS', payload: null }

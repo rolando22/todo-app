@@ -4,6 +4,7 @@ import { todosInitialState, todosReducer } from '../reducers/todos';
 import { useUserContext } from '../hooks/useUserContext';
 import { createTodo, deleteTodo, getTodosByUser, updateTodo } from '../services/todos';
 import type { TodoId, TodoWithId, TodosState } from '../types/todo';
+import { setToken } from '../services';
 
 interface ContextProps {
 	todos: TodosState
@@ -26,7 +27,8 @@ export function TodosProvider({ children }: Props) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		if (user.token === '') return;
+		if (user.token === '') return reset();
+		setToken(user.token);
 		(async () => {
 			try {
 				setIsLoading(true);
@@ -34,6 +36,7 @@ export function TodosProvider({ children }: Props) {
 				const todosData = await getTodosByUser(id);
 				dispatch({ type: 'SET_TODOS', payload: todosData });
 			} catch (error) {
+				if (error instanceof Error) toast.error(error.message);
 				console.log(error);
 			} finally {
 				setIsLoading(false);
@@ -82,6 +85,8 @@ export function TodosProvider({ children }: Props) {
 			setIsLoading(false);
 		}
 	};
+
+	const reset = () => dispatch({ type: 'RESET_TODOS', payload: null });
 
 	const getTodo = (id: TodoId) => structuredClone(todos).find(todo => todo.id === id);
 
