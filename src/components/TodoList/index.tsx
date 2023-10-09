@@ -1,4 +1,4 @@
-import { Loader, TodoItem } from '..';
+import { LoadScreen, TodoItem } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
 import type { ToggleModal } from '../../types/state';
 
@@ -12,7 +12,7 @@ export function TodoList({ toggle }: Props) {
 	return (
 		<>
 			{isLoading && todos.length === 0 
-				? <Loader /> 
+				? <LoadScreen /> 
 				: <ul className='m-0 px-0 pt-0 pb-14'>
 					{[...todos].reverse().map(todo => 
 						<TodoItem 

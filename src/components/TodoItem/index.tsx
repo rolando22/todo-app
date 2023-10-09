@@ -1,4 +1,4 @@
-import { CompleteIcon, DeleteIcon, EditIcon, Loader, Modal } from '..';
+import { CompleteIcon, DeleteIcon, EditIcon, LoadScreen } from '..';
 import { useTodosContext } from '../../hooks/useTodosContext';
 import type { ToggleModal } from '../../types/state';
 import type { TodoId } from '../../types/todo';
@@ -19,13 +19,7 @@ export function TodoItem({ id, text, completed, toggle }: Props) {
 
 	return (
 		<>
-			{isLoading && 
-				<Modal>
-					<div className='bg-black h-screen w-screen opacity-50 flex justify-center items-center'>
-						<Loader />
-					</div>
-				</Modal>
-			}
+			{isLoading && <LoadScreen />}
 			<li className='rounded-xl bg-[#293143] relative flex justify-center items-center mt-6'>
 				<CompleteIcon 
 					completed={completed} 
