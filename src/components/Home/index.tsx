@@ -3,7 +3,7 @@ import { CreateTodoButton, Modal, TodoCounter, TodoForm, TodoList } from '..';
 import type { ToggleModal } from '../../types/state';
 
 export function Home() {
-	const [toggleModal, setToggleModal] = useState<ToggleModal>({ todoId: 0, type: '', open: false });
+	const [toggleModal, setToggleModal] = useState<ToggleModal>({ todoId: '', type: '', open: false });
 
 	const toggle = (newState: ToggleModal) => 
 		setToggleModal(prevState => ({ ...prevState, ...newState }));

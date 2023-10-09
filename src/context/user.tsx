@@ -40,7 +40,7 @@ export function UserProvider({ children }: Props) {
 	const logout = () => {
 		dispatch({ type: 'LOGOUT', payload: null });
 		setToken('');
-		toast.success('Log out');
+		toast.message('Log out');
 	};
 
 	return (

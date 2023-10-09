@@ -1,6 +1,6 @@
 import { UserId } from './user';
 
-export type TodoId = number;
+export type TodoId = string;
 
 export interface Todo {
     text: string 

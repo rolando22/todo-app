@@ -9,19 +9,19 @@ interface Props {
 	toggle: (newState: ToggleModal) => void
 }
 
-export function TodoForm({ todoId = 0, type, toggle }: Props) {
+export function TodoForm({ todoId = '', type, toggle }: Props) {
 	const [isTextTodoInvalid, setIsTextTodoInvalid] = useState(false);
 	const { getTodo, addTodo, editTodo } = useTodosContext();
-	const [todo, setTodo] = useState<TodoWithId>(() => (getTodo(todoId) || { id: todoId, text: '', completed: false, userId: 0 }));
+	const [todo, setTodo] = useState<TodoWithId>(() => (getTodo(todoId) || { id: todoId, text: '', completed: false, userId: '' }));
 
 	const handlerOnSubmitAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (todo.text === '') return setIsTextTodoInvalid(true);
-		todoId === 0 ? addTodo(todo.text) : editTodo(todo);
-		toggle({ todoId: 0, open: false });
+		todoId === '' ? addTodo(todo.text) : editTodo(todo);
+		toggle({ todoId: '', open: false });
 	};
 
-	const handlerOnClickToggleModal = () => toggle({ todoId: 0, open: false });
+	const handlerOnClickToggleModal = () => toggle({ todoId: '', open: false });
 	const handlerOnChangeSetTodo = (event: React.ChangeEvent<HTMLTextAreaElement>) => 
 		setTodo((prevState => ({ ...prevState, text: event.target.value })));
 

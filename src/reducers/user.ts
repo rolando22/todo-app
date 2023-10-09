@@ -1,7 +1,7 @@
 import type { UserState, UserTypeAction } from '../types/user';
 
 const emptyUser = {
-	id: 0,
+	id: '',
 	firstName: '',
 	lastName: '',
 	email: '',

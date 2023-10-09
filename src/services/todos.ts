@@ -1,9 +1,10 @@
 import { token } from '.';
 import type { Todo, TodoId, TodoWithId, TodosState } from '../types/todo';
+import type { UserId } from '../types/user';
 
 const delay = async (ms: number) => await new Promise(resolve => setTimeout(resolve, ms));
 
-export const getTodosByUser = async (id: number) => {
+export const getTodosByUser = async (id: UserId) => {
 	await delay(1000);
 	const response = await fetch(`http://localhost:3004/api/users/${id}/todos`);
 	if (!response.ok) throw new Error('Server error');

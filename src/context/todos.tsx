@@ -23,7 +23,7 @@ interface Props {
 
 export function TodosProvider({ children }: Props) {
 	const [todos, dispatch] = useReducer(todosReducer, todosInitialState);
-	const { user } = useUserContext();
+	const { user, logout } = useUserContext();
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
@@ -53,6 +53,7 @@ export function TodosProvider({ children }: Props) {
 		} catch (error) {
 			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
+			logout();
 		} finally {
 			setIsLoading(false);
 		}
@@ -67,6 +68,7 @@ export function TodosProvider({ children }: Props) {
 		} catch (error) {
 			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
+			logout();
 		} finally {
 			setIsLoading(false);
 		}
@@ -81,6 +83,7 @@ export function TodosProvider({ children }: Props) {
 		} catch (error) {
 			if (error instanceof Error) toast.error(error.message);
 			console.log(error);
+			logout();
 		} finally {
 			setIsLoading(false);
 		}
