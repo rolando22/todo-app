@@ -1,9 +1,7 @@
-import { createContext, useReducer, useState } from 'react';
-import { toast } from 'sonner';
-import { userInitialState, userReducer } from '../reducers/user';
-import { authUser } from '../services/users';
+import { createContext } from 'react';
+import { userInitialState } from '../reducers/user';
 import type { UserLogin, UserState } from '../types/user';
-import { setToken } from '../services';
+import { useUser } from '../hooks/useUser';
 
 interface ContextProps {
     user: UserState,
@@ -21,27 +19,12 @@ interface Props {
 }
 
 export function UserProvider({ children }: Props) {
-	const [user, dispatch] = useReducer(userReducer, userInitialState);
-	const [isLoading, setIsLoading] = useState(false);
-
-	const login = async (loginData: UserLogin) => {
-		try {
-			setIsLoading(true);
-			const userData = await authUser(loginData);
-			dispatch({ type: 'LOGIN', payload: userData });
-		} catch (error) {
-			if (error instanceof Error) toast.error(error.message);
-			console.log(error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const logout = () => {
-		dispatch({ type: 'LOGOUT', payload: null });
-		setToken('');
-		toast.message('Log out');
-	};
+	const { 
+		user, 
+		isLoading, 
+		login,
+		logout, 
+	} = useUser();
 
 	return (
 		<UserContext.Provider value={{
