@@ -1,6 +1,6 @@
-## Instrucciones
+# Instrucciones
 
-# Instalación
+## Instalación
 
 Instalar dependencias del proyecto
 
@@ -8,7 +8,7 @@ Instalar dependencias del proyecto
 $ npm install
 ```
 
-# Ejecutar
+## Ejecutar
 
 Ejecutar el proyecto, por defecto en el puerto 5173
 
