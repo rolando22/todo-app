@@ -1,11 +1,11 @@
-import { token } from '.';
+import { token, baseAPI } from '.';
 import type { Todo, TodoId, TodoWithId, TodosState } from '../types/todo';
 
 const delay = async (ms: number) => await new Promise(resolve => setTimeout(resolve, ms));
 
 export const getTodosByUser = async () => {
 	await delay(1000);
-	const response = await fetch('http://localhost:3004/api/users/todos', {
+	const response = await fetch(`${baseAPI}/api/users/todos`, {
 		method: 'GET',
 		headers: { 
 			'Authorization': token, 
@@ -18,7 +18,7 @@ export const getTodosByUser = async () => {
 
 export const createTodo = async (newTodo: Todo) => {
 	await delay(1000);
-	const response = await fetch('http://localhost:3004/api/todos', {
+	const response = await fetch(`${baseAPI}/api/todos`, {
 		method: 'POST',
 		headers: { 
 			'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const createTodo = async (newTodo: Todo) => {
 
 export const updateTodo = async (todoId: TodoId, newTodo: Todo) => {
 	await delay(1000);
-	const response = await fetch(`http://localhost:3004/api/todos/${todoId}`, {
+	const response = await fetch(`${baseAPI}/api/todos/${todoId}`, {
 		method: 'PATCH',
 		headers: { 
 			'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const updateTodo = async (todoId: TodoId, newTodo: Todo) => {
 
 export const deleteTodo = async (id: TodoId) => {
 	await delay(1000);
-	const response = await fetch(`http://localhost:3004/api/todos/${id}`, {
+	const response = await fetch(`${baseAPI}/api/todos/${id}`, {
 		method: 'DELETE',
 		headers: { 'Authorization': token },
 	});
